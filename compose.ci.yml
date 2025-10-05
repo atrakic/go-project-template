@@ -1,0 +1,14 @@
+services:
+  ci:
+    image: alpine:latest
+    container_name: ci
+    tty: true
+    command:
+      - /bin/sh
+      - -c
+      - |
+        true
+    depends_on:
+      # should match service name of your app:
+      app:
+        condition: service_started
