@@ -1,17 +1,17 @@
-FROM golang:1.19 as builder
+FROM golang:1.24 AS builder
+WORKDIR /go/src/app
+COPY . .
 
-WORKDIR /app
-COPY . /app
+RUN useradd -u 1001 nonroot
 
-RUN go get -d -v
+RUN go mod download
+RUN go vet -v
+RUN go test -v
 
-# Statically compile our app for use in a distroless container
-RUN CGO_ENABLED=0 go build -ldflags="-w -s" -v -o app .
+RUN CGO_ENABLED=0 go build -o /go/bin/app
 
-# A distroless container image with some basics like SSL certificates
-# https://github.com/GoogleContainerTools/distroless
-FROM gcr.io/distroless/static
-
-COPY --from=builder /app/app /app
-
+FROM scratch AS final
+COPY --from=builder /etc/passwd /etc/passwd
+COPY --from=builder /go/bin/app /
+USER nonroot
 ENTRYPOINT ["/app"]
