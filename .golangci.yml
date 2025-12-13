@@ -1,35 +1,23 @@
-run:
-  timeout: 5m
-  modules-download-mode: readonly
-
 linters:
+  default: none
   enable:
     - errcheck
     - staticcheck
-    - gosimple
-    - govet
-    - ineffassign
-    - typecheck
-    - unused
-    - gofmt
-    - goimports
-    - misspell
-    - gocritic
-
-linters-settings:
-  gofmt:
-    simplify: true
-  goimports:
-    local-prefixes: github.com/atrakic/go-project-template
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - style
-      - performance
-
-issues:
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - errcheck
-  exclude-use-default: false
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
