@@ -1,3 +1,8 @@
+LICENSE
 Dockerfile
 .dockerignore
 **/.git
+**/.github
+*.md
+*.yml
+*.yaml
