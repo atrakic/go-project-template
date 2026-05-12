@@ -1,5 +1,5 @@
+# renovate: datasource=docker depName=golang
 ARG GO_VERSION=1.24-alpine
-
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS builder
 WORKDIR /src
 RUN apk --update add ca-certificates
